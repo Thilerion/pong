@@ -54,6 +54,11 @@ function Ball(x, y, radius, speed) {
 	this.dyAdjust = 0;
 }
 
+// For when the ball resets, and eventually to randomize the way the ball moves each round
+Ball.prototype.setInitialAngle = function() {
+	this.angle = 20;
+};
+
 // Ball render method
 Ball.prototype.render = function () {
 	//first because the white, real, ball must be on top
@@ -102,11 +107,14 @@ Ball.prototype.renderTrail = function () {
 
 // Ball update method, runs every frame and checks for collisions, angle, and moves
 Ball.prototype.update = function (pLeft, pRight) {
-	this.detectPaddle(pLeft, pRight);
-    this.detectWall();
-	this.move();
-	this.outOfBounds();
-	this.addToTrailArray();
+	if (playing === true) {
+		this.detectPaddle(pLeft, pRight);
+    	this.detectWall();
+		this.move();
+		this.outOfBounds();
+		this.addToTrailArray();
+	}
+	
 };
 
 // Ball move method, which calculates movement from angle (in rad) and speed
@@ -130,14 +138,18 @@ Ball.prototype.detectWall = function () {
 	
 	//check direction ball is travelling in, to know which walls to check
 	if (dir.left === true) {
-		if (this.x - this.radius < 0) {
+		if (this.x - this.radius < -(this.radius)) {
 			//left wall
-			newAngle = this.reflectYAxis(newAngle);
+			//newAngle = this.reflectYAxis(newAngle);
+			endOfRound(1);
+			return;
 		}
 	} else if (dir.right === true) {
-		if (this.x + this.radius > cWidth) {
+		if (this.x + this.radius > cWidth + this.radius) {
 			//right wall
-			newAngle = this.reflectYAxis(newAngle);
+			//newAngle = this.reflectYAxis(newAngle);
+			endOfRound(0);
+			return;
 		}
 	}
 	
@@ -254,6 +266,7 @@ Ball.prototype.reset = function() {
 	this.trailArray = [];
 	this.dx = 0;
 	this.dy = 0;
+	this.setInitialAngle();
 };
 
 // Player constructor, called by initialization, creates paddle

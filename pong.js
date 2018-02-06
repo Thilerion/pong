@@ -76,6 +76,11 @@ function render() {
 	ball.render();
 }
 
+function endOfRound(winner) {
+	reset();
+	score[winner] += 1;
+}
+
 function reset() {
 
 	ball.reset();
