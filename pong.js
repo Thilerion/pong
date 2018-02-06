@@ -50,7 +50,7 @@ function initGame () {
 function update() {
 	player.update();
 	computer.update(ball);
-	ball.update();
+	ball.update(player.paddle, computer.paddle);
 }
 
 function render() {

@@ -97,8 +97,9 @@ Ball.prototype.renderTrail = function () {
 };
 
 // Ball update method, runs every frame and checks for collisions, angle, and moves
-Ball.prototype.update = function () {
-	this.detectWall();
+Ball.prototype.update = function (pLeft, pRight) {
+	this.detectPaddle(pLeft, pRight);
+    this.detectWall();
 	this.move();
 	this.addToTrailArray();
 };
@@ -149,6 +150,34 @@ Ball.prototype.detectWall = function () {
 	
 	this.angle = newAngle;
 };
+
+Ball.prototype.detectPaddle = function (pLeft, pRight) {
+    let dir = this.getDirection();
+    
+    //only check when near left or right side
+    if (this.x > cWidth * 0.9 || this.x < cWidth * 0.1) {
+        if (dir.left === true) {
+            //check left paddle
+            if (this.x - this.radius <= pLeft.x + pLeft.width && this.x > pLeft.x) {
+                //second part checks whether the center of the ball has not passed the left side of the paddle, just additional check
+                //at correct x coords, now check y coords
+                if (this.y + this.radius >= pLeft.y && this.y + this.radius <= pLeft.y + pLeft.height) {
+                    //collision
+                    newAngle = this.reflectYAxis();
+                    this.angle = newAngle;
+                }
+            }
+        } else if (dir.right === true) {
+            //check right paddle
+            if (this.x + this.radius >= pRight.x && this.x + this.radius < pRight.x + pRight.width) {
+                if (this.y + this.radius >= pRight.y && this.y + this.radius <= pRight.y + pRight.height) {
+                    newAngle = this.reflectYAxis();
+                    this.angle = newAngle;
+                }
+            }
+        }
+    }
+}
 
 // Ball method to reflect over the y-axis (so right > left, left > right)
 Ball.prototype.reflectYAxis = function (deg) {
