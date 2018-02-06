@@ -101,6 +101,7 @@ Ball.prototype.update = function (pLeft, pRight) {
 	this.detectPaddle(pLeft, pRight);
     this.detectWall();
 	this.move();
+	this.outOfBounds();
 	this.addToTrailArray();
 };
 
@@ -233,6 +234,13 @@ Ball.prototype.getDirection = function (angle) {
 	}
 	
 	return dir;
+};
+
+// Ball prototype that gets activated when the ball is where it is not supposed to be (outside game bounds)
+Ball.prototype.outOfBounds = function() {
+    if (this.y < -5 || this.y > cHeight + 5) {
+		//reset game
+	}
 };
 
 // Player constructor, called by initialization, creates paddle

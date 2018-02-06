@@ -42,7 +42,7 @@ let player, computer, ball;
 function initGame () {
 	player = new Player(15, 70, 4);				//width, height, speed
 	computer = new Computer(15, 70, 4); 		//width, height, speed
-	ball = new Ball(15+20+7, cHeight/2, 7, 5); 	//x, y, radius, speed
+	ball = new Ball(15+20+7, cHeight/2, 7, 7); 	//x, y, radius, speed
 	addKeyListeners();
 	frame();
 }
