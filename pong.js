@@ -1,5 +1,5 @@
 /*jshint browser: true, devel: true, esversion: 6 */
-/* globals Player, Computer, Ball */
+/* globals Player, Computer, Ball, Interface */
 
 let canvas = document.getElementById("main-canvas");
 let context = canvas.getContext("2d");
@@ -37,9 +37,11 @@ function listenerKeyDown(e) {
 //		update loads the update method of all objects
 //		render loads the render method of all objects
 //		frame runs every frame, running update and render, and loads itself again
-let player, computer, ball;
+let player, computer, ball, interface;
+let score = [0, 0];
 
 function initGame () {
+	interface = new Interface(score);
 	player = new Player(15, 70, 4);				//width, height, speed
 	computer = new Computer(15, 70, 4); 		//width, height, speed
 	ball = new Ball(15+20+7, cHeight/2, 7, 7); 	//x, y, radius, speed
@@ -48,6 +50,7 @@ function initGame () {
 }
 
 function update() {
+	interface.update(score);
 	player.update();
 	computer.update(ball);
 	ball.update(player.paddle, computer.paddle);
@@ -55,6 +58,7 @@ function update() {
 
 function render() {
 	context.clearRect(0, 0, cWidth, cHeight);
+	interface.render();
 	player.render();
 	computer.render();
 	ball.render();

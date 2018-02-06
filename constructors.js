@@ -1,5 +1,5 @@
 /*jshint browser: true, devel: true, esversion: 6 */
-/* globals context, canvas, cWidth, cHeight, colors, player, computer, ball, keys */
+/* globals context, canvas, cWidth, cHeight, colors, player, computer, ball, keys, interface */
 
 // Paddle constructor, called upon by both players (Player and AI) constructors
 function Paddle(x, y, width, height, speed) {
@@ -313,4 +313,40 @@ Computer.prototype.update = function (b) {
 			//move up
 			this.paddle.move(0, -1);
 	}
+};
+
+function Interface() {
+	this.score = [];
+}
+
+Interface.prototype.update = function(score) {
+	this.score = score;
+};
+
+Interface.prototype.render = function() {
+	this.renderMiddleLine();
+	this.renderScore();
+};
+
+Interface.prototype.renderMiddleLine = function() {
+	context.beginPath();	
+	context.strokeStyle = "rgba(255,255,255,0.7)";
+	context.setLineDash([8, 12]);
+	context.lineWidth = 2;
+	context.moveTo(cWidth/2, 0);
+	context.lineTo(cWidth/2, cHeight);
+	context.stroke();
+};
+
+Interface.prototype.renderScore = function() {
+	context.font = "90px Verdana";
+	let widthLeft = context.measureText(this.score[0]).width;
+	let widthRight = context.measureText(this.score[1]).width;
+	
+	let halfWidth = cWidth / 2;
+	
+	context.fillStyle = "rgba(255,255,255,0.1)";
+	
+	context.fillText(this.score[0], halfWidth / 2 - widthLeft / 2, 100);
+	context.fillText(this.score[1], halfWidth / 2 + halfWidth - widthRight / 2, 100);
 };
