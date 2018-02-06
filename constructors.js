@@ -258,11 +258,21 @@ Computer.prototype.update = function (b) {
 	
 	let dir = b.getDirection();
 	let paddleMid = this.paddle.y + (this.paddle.height / 2);
-
-	if (paddleMid - ball.y < -10) {
+    
+    //if ball moving away, return to center
+    if (dir.left) {
+        if (paddleMid > cHeight / 2) {
+            //move up
+            this.paddle.move(0, -1);
+        } else if (paddleMid < cHeight / 2) {
+            this.paddle.move(0, 1);
+        } else {
+            this.paddle.move(0, 0);
+        }
+    } else if (paddleMid - ball.y < -10 || dir.down) {
 			//move down
 			this.paddle.move(0, 1);
-	} else if (paddleMid - ball.y > 10) {
+	} else if (paddleMid - ball.y > 10 || dir.up) {
 			//move up
 			this.paddle.move(0, -1);
 	}
