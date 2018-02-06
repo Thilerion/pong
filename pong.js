@@ -76,6 +76,13 @@ function render() {
 	ball.render();
 }
 
+function reset() {
+
+	ball.reset();
+	delete keys[" "];
+	playing = false;
+}
+
 function frame() {
 	update();
 	render();

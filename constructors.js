@@ -47,6 +47,8 @@ function Ball(x, y, radius, speed) {
 	
 	this.trailArray = [];
 	
+	this.initialParams = [x, y, radius, speed];
+	
 	//inter-frame collision direction adjustments
 	this.dxAdjust = 0;
 	this.dyAdjust = 0;
@@ -241,8 +243,17 @@ Ball.prototype.getDirection = function (angle) {
 // Ball prototype that gets activated when the ball is where it is not supposed to be (outside game bounds)
 Ball.prototype.outOfBounds = function() {
     if (this.y < -5 || this.y > cHeight + 5) {
-		//reset game
+		this.reset();
 	}
+};
+
+Ball.prototype.reset = function() {
+	this.x = this.initialParams[0];
+	this.y = this.initialParams[1];
+	this.speed = this.initialParams[3];
+	this.trailArray = [];
+	this.dx = 0;
+	this.dy = 0;
 };
 
 // Player constructor, called by initialization, creates paddle
