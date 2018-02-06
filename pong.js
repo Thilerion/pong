@@ -31,6 +31,12 @@ function listenerKeyDown(e) {
 	}	
 }
 
+function spaceToStartGame() {
+	if (keys[" "] === true) {
+		playing = true;
+	}
+}
+
 
 // Base functions for the game
 // 		initGame initializes all constructors and starts functions when window is loaded
@@ -39,6 +45,7 @@ function listenerKeyDown(e) {
 //		frame runs every frame, running update and render, and loads itself again
 let player, computer, ball, interface;
 let score = [0, 0];
+let playing = false;
 
 function initGame () {
 	interface = new Interface(score);
@@ -51,9 +58,14 @@ function initGame () {
 
 function update() {
 	interface.update(score);
-	player.update();
-	computer.update(ball);
-	ball.update(player.paddle, computer.paddle);
+	if (playing === true) {
+		player.update();
+		computer.update(ball);
+		ball.update(player.paddle, computer.paddle);
+	} else if (playing === false) {
+		spaceToStartGame();
+	}
+	
 }
 
 function render() {

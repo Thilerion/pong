@@ -45,6 +45,8 @@ function Ball(x, y, radius, speed) {
 	this.dx = 0;
 	this.dy = 0;
 	
+	this.trailArray = [];
+	
 	//inter-frame collision direction adjustments
 	this.dxAdjust = 0;
 	this.dyAdjust = 0;
