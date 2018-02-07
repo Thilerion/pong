@@ -12,11 +12,11 @@ let settings = {
 		textMain: "rgba(238, 238, 238, 1)" //#eeeeee
 	},
 	baseBallRadius: 7,
-	baseBallSpeed: 15,
+	baseBallSpeed: 20,
 	basePaddleWidth: 10,
 	basePaddleHeight: 70,
 	playerSpeed: 5,
-	computerSpeed: 4
+	computerSpeed: 8
 };
 
 let state = {

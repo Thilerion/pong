@@ -119,21 +119,55 @@ Ball.prototype.renderTrail = function () {
 // Ball update method, runs every frame and checks for collisions, angle, and moves
 Ball.prototype.update = function (pLeft, pRight) {
 	if (state.playing === true) {
-		this.detectPaddle(pLeft, pRight);
-    	this.detectWall();
-		this.move();
+		if (this.isAccurateCollisionNeeded(pLeft, pRight)) {
+			console.warn("ACCURATE COLLISION CHECK ENABLED");
+			for (let i = 0; i < this.speed; i++) {
+				this.detectPaddle(pLeft, pRight);
+    			this.detectWall();
+				this.move(1);
+			}
+		} else {
+			this.detectPaddle(pLeft, pRight);
+    		this.detectWall();
+			this.move(this.speed);
+		}
+		
 		this.outOfBounds();
 		this.addToTrailArray();
 	}
 	
 };
 
-// Ball move method, which calculates movement from angle (in rad) and speed
-Ball.prototype.move = function() {
+Ball.prototype.isAccurateCollisionNeeded = function(pLeft, pRight) {
+	let angleRad = this.angle * (Math.PI / 180);
+	let projectedX = this.speed * Math.cos(angleRad) + this.x;
+	let projectedY = this.speed * Math.sin(angleRad) + this.y;
+	let dir = this.getDirection();
+	
+	if (dir.left === true) {
+		//check left paddle
+		if (this.x - this.radius > pLeft.x + pLeft.width && projectedX + this.radius < pLeft.x + pLeft.width) {
+			//if before movement right of paddle and after movement left of paddle
+			return true;
+		} else {
+			return false;
+		}
+	} else if (dir.right === true) {
+		//check right paddle
+		if (this.x - this.radius < pRight.x && projectedX - this.radius > pRight.x + pRight.width) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+};
+
+// Ball move method, which calculates movement from angle (in rad) and distance
+Ball.prototype.move = function(distance) {
 	let angleRad = this.angle * (Math.PI / 180);
 
-	this.dx = this.speed * Math.cos(angleRad);
-	this.dy = this.speed * Math.sin(angleRad);
+	this.dx = distance * Math.cos(angleRad);
+	this.dy = distance * Math.sin(angleRad);
 	
 	this.x += this.dx;
 	this.y -= this.dy;
@@ -142,8 +176,6 @@ Ball.prototype.move = function() {
 // Ball detect wall collision method
 Ball.prototype.detectWall = function () {
 	let dir = this.getDirection();
-	console.log(dir);
-	console.log(this.angle);
 	
 	let newAngle = this.angle;
 	
