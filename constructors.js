@@ -21,8 +21,13 @@ Paddle.prototype.render = function () {
 
 // Paddle move method, called upon by certain keypresses
 Paddle.prototype.move = function (x, y) {
-	this.dx = x * this.speed;
-	this.dy = y * this.speed;
+	if (x > this.speed)
+		x = this.speed;
+	if (y > this.speed)
+		y = this.speed;
+	
+	this.dx = x;
+	this.dy = y;
 
 	if (this.y + this.dy <= 0) {
 		this.y = 0;
