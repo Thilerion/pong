@@ -21,7 +21,7 @@ let settings = {
 
 let state = {
 	menu: false,
-	game: false,
+	game: true,
 	playing: false,
 	score: [0,0],
 	startGameState: function() {

@@ -358,6 +358,19 @@ Interface.prototype.update = function(score) {
 Interface.prototype.render = function() {
 	this.renderMiddleLine();
 	this.renderScore();
+	if (state.playing !== true && state.game === true) {
+		//if not playing but in game (instead of menu)
+		context.font = "30px Verdana";
+		let text = "Press [SPACE] to play";
+		let tWidth = context.measureText(text).width;
+		let xPos = 0.5 * (cWidth - tWidth);
+		context.fillStyle = "red";
+		context.fillText(text, xPos, cHeight - 60);
+	}
+};
+
+Interface.prototype.renderSpaceToStart = function() {
+	
 };
 
 Interface.prototype.renderMiddleLine = function() {
