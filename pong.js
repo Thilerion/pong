@@ -6,9 +6,46 @@ let context = canvas.getContext("2d");
 let cWidth = canvas.width;
 let cHeight = canvas.height;
 
-let colors = {
-	bg: "#1f1f1f",
-	textMain: "#eeeeee"
+let settings = {
+	colors: {
+		bg: "rgba(31, 31, 31, 1)", //#1f1f1f
+		textMain: "rgba(238, 238, 238, 1)" //#eeeeee
+	},
+	baseBallRadius: 7,
+	baseBallSpeed: 10,
+	basePaddleWidth: 10,
+	basePaddleHeight: 70,
+	playerSpeed: 4,
+	computerSpeed: 4
+};
+
+let state = {
+	menu: false,
+	game: false,
+	playing: false,
+	score: [0,0],
+	startGameState: function() {
+		if (state.game === false) {
+			state.menu = false;
+			state.game = true;
+			state.playing = false;
+		}
+	},
+	startMenuState: function() {
+		if (state.menu === false) {
+			state.menu = true;
+			state.game = false;
+			state.playing = false;
+		}
+	},
+	startPlayingState: function() {
+		//unique in that, when playing, gameState is also true
+		if (state.playing === false) {
+			state.menu = false;
+			state.game = true;
+			state.playing = true;
+		}
+	}
 };
 
 // Functions to check for currently pressed keys
@@ -28,12 +65,12 @@ function listenerKeyDown(e) {
 	if (!keys[e.key]) {
 		keys[e.key] = true;
 		console.log(keys);
-	}	
+	}
 }
 
 function spaceToStartGame() {
-	if (keys[" "] === true) {
-		playing = true;
+	if (keys[" "] === true && state.playing !== true) {
+		state.playing = true;
 	}
 }
 
@@ -44,28 +81,26 @@ function spaceToStartGame() {
 //		render loads the render method of all objects
 //		frame runs every frame, running update and render, and loads itself again
 let player, computer, ball, interface;
-let score = [0, 0];
-let playing = false;
 
-function initGame () {
-	interface = new Interface(score);
-	player = new Player(15, 70, 4);				//width, height, speed
-	computer = new Computer(15, 70, 4); 		//width, height, speed
-	ball = new Ball(15+20+7, cHeight/2, 7, 7); 	//x, y, radius, speed
+function initGame() {
+	interface = new Interface(state.score);
+	player = new Player(15, 70, 4); //width, height, speed
+	computer = new Computer(15, 70, 4); //width, height, speed
+	ball = new Ball(15 + 20 + 7, cHeight / 2, 7, 7); //x, y, radius, speed
 	addKeyListeners();
 	frame();
 }
 
 function update() {
-	interface.update(score);
-	if (playing === true) {
+	interface.update(state.score);
+	if (state.playing === true) {
 		player.update();
 		computer.update(ball);
 		ball.update(player.paddle, computer.paddle);
-	} else if (playing === false) {
+	} else if (state.playing === false) {
 		spaceToStartGame();
 	}
-	
+
 }
 
 function render() {
@@ -78,14 +113,14 @@ function render() {
 
 function endOfRound(winner) {
 	reset();
-	score[winner] += 1;
+	state.score[winner] += 1;
 }
 
 function reset() {
 
 	ball.reset();
 	delete keys[" "];
-	playing = false;
+	state.playing = false;
 }
 
 function frame() {

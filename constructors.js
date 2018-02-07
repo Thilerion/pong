@@ -1,5 +1,5 @@
 /*jshint browser: true, devel: true, esversion: 6 */
-/* globals context, canvas, cWidth, cHeight, colors, player, computer, ball, keys, interface, playing, endOfRound */
+/* globals context, canvas, cWidth, cHeight, player, computer, ball, keys, interface, endOfRound */
 
 // Paddle constructor, called upon by both players (Player and AI) constructors
 function Paddle(x, y, width, height, speed) {
@@ -15,7 +15,7 @@ function Paddle(x, y, width, height, speed) {
 
 // Paddle render method
 Paddle.prototype.render = function () {
-	context.fillStyle = colors.textMain;
+	context.fillStyle = settings.colors.textMain;
 	context.fillRect(this.x, this.y, this.width, this.height);
 };
 
@@ -77,7 +77,7 @@ Ball.prototype.render = function () {
 	
 	context.beginPath();
 	context.arc(this.x, this.y, this.radius, 2 * Math.PI, false);
-	context.fillStyle = colors.textMain;
+	context.fillStyle = settings.colors.textMain;
 	context.fill();	
 };
 
@@ -118,7 +118,7 @@ Ball.prototype.renderTrail = function () {
 
 // Ball update method, runs every frame and checks for collisions, angle, and moves
 Ball.prototype.update = function (pLeft, pRight) {
-	if (playing === true) {
+	if (state.playing === true) {
 		this.detectPaddle(pLeft, pRight);
     	this.detectWall();
 		this.move();
