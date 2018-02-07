@@ -86,7 +86,7 @@ function initGame() {
 	interface = new Interface(state.score);
 	player = new Player(settings.basePaddleWidth, settings.basePaddleHeight, settings.playerSpeed); //width, height, speed
 	computer = new Computer(settings.basePaddleWidth, settings.basePaddleHeight, settings.computerSpeed); //width, height, speed
-	ball = new Ball(settings.basePaddleWidth + 20 + settings.baseBallRadius, cHeight / 2, settings.baseBallRadius, settings.baseBallSpeed); //x, y, radius, speed
+	ball = new Ball(settings.basePaddleWidth + player.paddle.x + settings.baseBallRadius, cHeight / 2, settings.baseBallRadius, settings.baseBallSpeed); //x, y, radius, speed
 	addKeyListeners();
 	frame();
 }
