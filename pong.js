@@ -12,10 +12,10 @@ let settings = {
 		textMain: "rgba(238, 238, 238, 1)" //#eeeeee
 	},
 	baseBallRadius: 7,
-	baseBallSpeed: 10,
+	baseBallSpeed: 15,
 	basePaddleWidth: 10,
 	basePaddleHeight: 70,
-	playerSpeed: 4,
+	playerSpeed: 5,
 	computerSpeed: 4
 };
 
@@ -84,9 +84,9 @@ let player, computer, ball, interface;
 
 function initGame() {
 	interface = new Interface(state.score);
-	player = new Player(15, 70, 4); //width, height, speed
-	computer = new Computer(15, 70, 4); //width, height, speed
-	ball = new Ball(15 + 20 + 7, cHeight / 2, 7, 7); //x, y, radius, speed
+	player = new Player(settings.basePaddleWidth, settings.basePaddleHeight, settings.playerSpeed); //width, height, speed
+	computer = new Computer(settings.basePaddleWidth, settings.basePaddleHeight, settings.computerSpeed); //width, height, speed
+	ball = new Ball(settings.basePaddleWidth + 20 + settings.baseBallRadius, cHeight / 2, settings.baseBallRadius, settings.baseBallSpeed); //x, y, radius, speed
 	addKeyListeners();
 	frame();
 }
