@@ -294,10 +294,10 @@ Player.prototype.update = function () {
 		if (keys.ArrowDown === true) {
 			moveY = 0;
 		} else {
-			moveY += -1;
+			moveY -= this.paddle.speed;
 		}
 	} else if (keys.ArrowDown === true) {
-		moveY += 1;
+		moveY += this.paddle.speed;
 	}
 
 	this.paddle.move(moveX, moveY);
