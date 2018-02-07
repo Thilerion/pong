@@ -327,23 +327,18 @@ Computer.prototype.update = function (b) {
     
     //if ball moving away, return to center
     if (dir.left) {
-        this.move(Math.round(cHeight / 2));
+        this.moveTo(Math.round(cHeight / 2));
     } else {
 		//move to ball
-		this.move(ball.y);
+		this.moveTo(ball.y);
 	}
 };
 
 // Computer separate move method so that it moves TO a point instead of a direction
-Computer.prototype.move = function(y) {
+Computer.prototype.moveTo = function(y) {
 	let paddleMid = Math.round(this.paddle.y + (this.paddle.height / 2));
-	if (paddleMid < y) {
-		//move down
-		this.paddle.move(0, 1);
-	} else if (paddleMid > y) {
-		//move up
-		this.paddle.move(0, -1);
-	}
+	
+	this.paddle.move(0, y - paddleMid);
 };
 
 function Interface() {
