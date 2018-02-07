@@ -119,9 +119,11 @@ Ball.prototype.renderTrail = function () {
 // Ball update method, runs every frame and checks for collisions, angle, and moves
 Ball.prototype.update = function (pLeft, pRight) {
 	if (state.playing === true) {
-		this.detectPaddle(pLeft, pRight);
-    	this.detectWall();
-		this.move();
+		for (let i = 0; i < this.speed; i++) {
+			this.detectPaddle(pLeft, pRight);
+    		this.detectWall();
+			this.move();
+		}		
 		this.outOfBounds();
 		this.addToTrailArray();
 	}
@@ -132,8 +134,8 @@ Ball.prototype.update = function (pLeft, pRight) {
 Ball.prototype.move = function() {
 	let angleRad = this.angle * (Math.PI / 180);
 
-	this.dx = this.speed * Math.cos(angleRad);
-	this.dy = this.speed * Math.sin(angleRad);
+	this.dx = Math.cos(angleRad);
+	this.dy = Math.sin(angleRad);
 	
 	this.x += this.dx;
 	this.y -= this.dy;
