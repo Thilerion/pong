@@ -1,5 +1,5 @@
 /*jshint browser: true, devel: true, esversion: 6 */
-/* globals context, canvas, cWidth, cHeight, colors, player, computer, ball, keys, interface */
+/* globals context, canvas, cWidth, cHeight, colors, player, computer, ball, keys, interface, playing, endOfRound */
 
 // Paddle constructor, called upon by both players (Player and AI) constructors
 function Paddle(x, y, width, height, speed) {
@@ -180,21 +180,19 @@ Ball.prototype.detectPaddle = function (pLeft, pRight) {
                 //at correct x coords, now check y coords
                 if (this.y + this.radius >= pLeft.y && this.y + this.radius <= pLeft.y + pLeft.height) {
                     //collision
-                    newAngle = this.reflectYAxis();
-                    this.angle = newAngle;
+                    this.angle = this.reflectYAxis();
                 }
             }
         } else if (dir.right === true) {
             //check right paddle
             if (this.x + this.radius >= pRight.x && this.x + this.radius < pRight.x + pRight.width) {
                 if (this.y + this.radius >= pRight.y && this.y + this.radius <= pRight.y + pRight.height) {
-                    newAngle = this.reflectYAxis();
-                    this.angle = newAngle;
+                    this.angle = this.reflectYAxis();
                 }
             }
         }
     }
-}
+};
 
 // Ball method to reflect over the y-axis (so right > left, left > right)
 Ball.prototype.reflectYAxis = function (deg) {
